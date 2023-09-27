@@ -1,0 +1,26 @@
+.fancyInput {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fancyInput > input {
+  width: 100%;
+}
+
+.fancyInput.focused > input {
+  padding-left: 40px;
+}
+
+.fancyInput > div {
+  position: absolute;
+  left: 10px;
+  color: var(--primary-color);
+  transition: var(--default-transition);
+}
+
+.fancyInput > div > svg {
+  width: 20px;
+  height: 20px;
+}
