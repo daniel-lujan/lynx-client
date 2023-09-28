@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 import "./App.css";
-import UserForm from "./components/user-form";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./components/routes";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,7 +16,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="App">
-        <UserForm />
+        <RouterProvider router={router} />
       </div>
     </QueryClientProvider>
   );
