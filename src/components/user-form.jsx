@@ -1,13 +1,15 @@
 import { useState } from "react";
 import styles from "../styles/user-form.module.css";
 import FancyInput from "./fancy-input";
-import { AtSymIcon, UserIcon } from "./icons";
+import { AtSymIcon, Numbers123Icon, UserIcon } from "./icons";
 import GenderSelector from "./gender-selector";
+import useDigits from "../hooks/use-digits";
 
 function UserForm() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
+  const [age, setAge] = useDigits("");
 
   return (
     <div className={`container ${styles.container}`}>
@@ -30,7 +32,7 @@ function UserForm() {
         placeholder="Correo electrónico"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        maxLength={20}
+        maxLength={50}
       />
       <FancyInput
         icon={<UserIcon />}
@@ -38,7 +40,15 @@ function UserForm() {
         placeholder="Nombre"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        maxLength={20}
+        maxLength={30}
+      />
+      <FancyInput
+        icon={<Numbers123Icon />}
+        inputMode="numeric"
+        placeholder="Edad"
+        value={age}
+        onChange={(e) => setAge(e.target.value)}
+        maxLength={2}
       />
       <GenderSelector state={gender} setState={setGender} />
       <button>LISTO!</button>
