@@ -1,5 +1,4 @@
 import { useEffect, useState, memo } from "react";
-import styles from "../styles/range-slider.module.css";
 
 function RangeSliderC({ className, onChange, value, ...sliderProps }) {
   const [sliderVal, setSliderVal] = useState(0);
@@ -7,7 +6,7 @@ function RangeSliderC({ className, onChange, value, ...sliderProps }) {
   const [mouseState, setMouseState] = useState(null);
 
   useEffect(() => {
-    setSliderVal(value);
+    setSliderVal(value * 10);
   }, [value]);
 
   const changeCallback = (e) => {
@@ -16,21 +15,21 @@ function RangeSliderC({ className, onChange, value, ...sliderProps }) {
 
   useEffect(() => {
     if (mouseState === "up") {
-      onChange(sliderVal);
+      onChange(parseInt(sliderVal / 10));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mouseState]);
 
   return (
-    <div className={styles.container}>
+    <div>
       <input
         style={{
-          opacity: sliderVal / 100,
+          opacity: Math.max(0.3, sliderVal / 100),
         }}
         type="range"
         value={sliderVal}
         {...sliderProps}
-        className={`${styles.slider} ${className}`}
+        className={className}
         onChange={changeCallback}
         onMouseDown={() => setMouseState("down")}
         onMouseUp={() => setMouseState("up")}
