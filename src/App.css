@@ -7,7 +7,7 @@
   --primary-color: #f40651;
   --secondary-color: #320111;
   --accent-color: #f90653;
-  --accent-color-opaque: #ae1042;
+  --opaque-color: #ae1042;
   --default-transition: all 0.2s ease-out;
 }
 
@@ -135,13 +135,13 @@ input[type="range"] {
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
-  background: var(--accent-color-opaque);
+  background: var(--opaque-color);
   height: 0.5rem;
   border-radius: 10px;
 }
 
 input[type="range"]::-moz-range-track {
-  background: var(--accent-color-opaque);
+  background: var(--opaque-color);
   height: 0.5rem;
   border-radius: 10px;
 }
