@@ -32,7 +32,9 @@ function RangeSliderC({ className, onChange, value, ...sliderProps }) {
         className={className}
         onChange={changeCallback}
         onMouseDown={() => setMouseState("down")}
+        onTouchStart={() => setMouseState("down")}
         onMouseUp={() => setMouseState("up")}
+        onTouchEnd={() => setMouseState("up")}
       />
     </div>
   );
