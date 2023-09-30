@@ -118,7 +118,7 @@ button {
 button:hover {
   transform: scale(1.03);
   cursor: pointer;
-  box-shadow: 0 0 10px 0px var(--accent-color);
+  box-shadow: 0 0 10px 0px var(--primary-color);
 }
 
 button:disabled {
