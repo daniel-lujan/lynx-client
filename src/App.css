@@ -78,6 +78,15 @@ div.container {
   border-radius: 20px;
 }
 
+div.row-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 20px;
+}
+
 .centered {
   align-self: center;
   text-align: center;
