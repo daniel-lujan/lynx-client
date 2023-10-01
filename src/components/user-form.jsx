@@ -162,6 +162,7 @@ function Tastes({ onContinue, onReturn }) {
       <RangeSlider value={partiesTaste} onChange={setPartiesTaste} />
       <h2 className="centered">Los conciertos... 🎤</h2>
       <RangeSlider value={concertsTaste} onChange={setConcertsTaste} />
+      <Divider />
       <div className="row-container">
         <button
           style={{ width: "100%" }}
@@ -214,6 +215,7 @@ function Categories({ onContinue, onReturn }) {
           <CategoryOption key={genre} value={genre} text={genre} />
         ))}
       </CategoryGroup>
+      <Divider />
       <h2 className="centered">
         ¿Qué consideras más importante en una persona?
       </h2>
@@ -222,6 +224,7 @@ function Categories({ onContinue, onReturn }) {
           <CategoryOption key={ch} value={ch} text={ch} />
         ))}
       </CategoryGroup>
+      <Divider />
       <div className="row-container">
         <button
           style={{ width: "100%" }}
@@ -343,6 +346,7 @@ function Binaries({ onContinue, onReturn }) {
           onClick={() => setMarvelOrDC(1)}
         />
       </ImagesContainer>
+      <Divider />
       <div className="row-container">
         <button
           style={{ width: "100%" }}
