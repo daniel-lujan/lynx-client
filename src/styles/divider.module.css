@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.line {
+  width: 120px;
+  border: none;
+  border-top: 1px solid var(--text-opaque);
+  opacity: 0.5;
+}
