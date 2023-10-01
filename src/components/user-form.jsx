@@ -11,25 +11,45 @@ import CategoryGroup, { CategoryOption } from "./category-group";
 import { MUSIC_GENRES, PERSON_CHARACTERISTICS } from "../constants/constants";
 import SelectableImage, { ImagesContainer } from "./selectable-image";
 import Divider from "./divider";
+import { AnimatePresence, motion } from "framer-motion";
+import { CONTAINER } from "../constants/animations";
 
 function UserForm() {
   const [step, setStep] = useState(0);
 
   return (
     <FormRecovery>
-      {step === 0 && <BasicData onContinue={() => setStep(1)} />}
-      {step === 1 && (
-        <Tastes onContinue={() => setStep(2)} onReturn={() => setStep(0)} />
-      )}
-      {step === 2 && (
-        <Categories onContinue={() => setStep(3)} onReturn={() => setStep(1)} />
-      )}
-      {step === 3 && (
-        <Binaries onContinue={() => setStep(4)} onReturn={() => setStep(2)} />
-      )}
-      {step === 4 && (
-        <SendingPage onSend={() => setStep(5)} onReturn={() => setStep(3)} />
-      )}
+      <AnimatePresence mode="wait">
+        {step === 0 && <BasicData key="basic" onContinue={() => setStep(1)} />}
+        {step === 1 && (
+          <Tastes
+            key="tastes"
+            onContinue={() => setStep(2)}
+            onReturn={() => setStep(0)}
+          />
+        )}
+        {step === 2 && (
+          <Categories
+            key="categories"
+            onContinue={() => setStep(3)}
+            onReturn={() => setStep(1)}
+          />
+        )}
+        {step === 3 && (
+          <Binaries
+            key="binaries"
+            onContinue={() => setStep(4)}
+            onReturn={() => setStep(2)}
+          />
+        )}
+        {step === 4 && (
+          <SendingPage
+            key="sending-page"
+            onSend={() => setStep(5)}
+            onReturn={() => setStep(3)}
+          />
+        )}
+      </AnimatePresence>
     </FormRecovery>
   );
 }
@@ -57,7 +77,14 @@ function BasicData({ onContinue }) {
   const isValidForm = email && name.trim() && age;
 
   return (
-    <div className={`container ${styles.container}`}>
+    <motion.div
+      className={`container ${styles.container}`}
+      key="basic-data"
+      variants={CONTAINER}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
       <h1 className="centered">
         Responde <b className="text-primary">sin mentir</b>
       </h1>
@@ -96,7 +123,7 @@ function BasicData({ onContinue }) {
       <button onClick={handleContinue} disabled={!isValidForm}>
         {isValidForm ? "CONTINUAR" : "Completa los campos"}
       </button>
-    </div>
+    </motion.div>
   );
 }
 
@@ -118,7 +145,14 @@ function Tastes({ onContinue, onReturn }) {
   const [partiesTaste, setPartiesTaste] = useState(data.partiesTaste ?? 0);
 
   return (
-    <div className={`container ${styles.container}`}>
+    <motion.div
+      className={`container ${styles.container}`}
+      key="tastes"
+      variants={CONTAINER}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
       <h1 className="centered">
         Qué tanto <b className="text-primary">te gusta...</b>
       </h1>
@@ -142,7 +176,7 @@ function Tastes({ onContinue, onReturn }) {
           CONTINUAR
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -162,7 +196,14 @@ function Categories({ onContinue, onReturn }) {
   const [personCh, setPersonCh] = useState(data.mostImportantAttr ?? "");
 
   return (
-    <div className={`container ${styles.container}`}>
+    <motion.div
+      className={`container ${styles.container}`}
+      key="categories"
+      variants={CONTAINER}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
       <h1 className="centered">
         Elige
         <b className="text-primary"> sabiamente...</b>
@@ -195,7 +236,7 @@ function Categories({ onContinue, onReturn }) {
           CONTINUAR
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -220,7 +261,14 @@ function Binaries({ onContinue, onReturn }) {
   const [marvelOrDC, setMarvelOrDC] = useState(data.marvelOrDC ?? -1);
 
   return (
-    <div className={`container ${styles.container}`}>
+    <motion.div
+      className={`container ${styles.container}`}
+      key="binaries"
+      variants={CONTAINER}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
       <h1 className="centered">
         ¿Qué <b className="text-primary">prefieres?</b>
       </h1>
@@ -309,7 +357,7 @@ function Binaries({ onContinue, onReturn }) {
           CONTINUAR
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -317,7 +365,14 @@ function SendingPage({ onSend, onReturn }) {
   const { data } = useFormData();
 
   return (
-    <div className={`container ${styles.container}`}>
+    <motion.div
+      className={`container ${styles.container}`}
+      key="sending-page"
+      variants={CONTAINER}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
       <p>
         Sólo puedes enviar este formulario una vez. Te has registrado como
         <b className="text-primary"> {data.email}</b>, ¿seguro que quieres
@@ -331,7 +386,7 @@ function SendingPage({ onSend, onReturn }) {
           ENVIAR
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
