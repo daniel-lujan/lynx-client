@@ -18,7 +18,7 @@ export default function FormRecovery({ children }) {
     catsOrDogs: undefined,
     messiOrCristiano: undefined,
     backOrFront: undefined,
-    overnightOrMorning: undefined,
+    marvelOrDC: undefined,
   });
 
   useQuery({
