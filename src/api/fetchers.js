@@ -10,6 +10,7 @@ export async function getForm(id) {
 }
 
 export async function postForm(userResponse) {
+  userResponse.age = parseInt(userResponse.age);
   const { data } = await fetcher.post("/form", userResponse);
   return data;
 }
