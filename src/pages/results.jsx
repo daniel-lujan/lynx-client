@@ -3,29 +3,68 @@ import { getResults } from "../api/fetchers";
 import { LOCAL_STORAGE_ID } from "../constants/constants";
 import AnimatedPage from "../components/animated-page";
 import GlobalLoader from "../components/global-loader";
-import { useNavigate } from "react-router";
 import UserCard from "../components/user-card";
 import EstablishmentCard from "../components/establishment-card";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FADE } from "../constants/animations";
+import FancyInput from "../components/fancy-input";
+import { AtSymIcon, NotFoundIcon } from "../components/icons";
 
 export default function ResultsPage() {
-  const navigate = useNavigate();
-
-  const { isLoading, data, isSuccess } = useQuery({
+  const { isLoading, data, isSuccess, refetch, error } = useQuery({
     queryFn: () => getResults(window.localStorage.getItem(LOCAL_STORAGE_ID)),
-    onError: () => navigate("/"),
     enabled: Boolean(window.localStorage.getItem(LOCAL_STORAGE_ID)),
+    onError: () => {
+      window.localStorage.removeItem(LOCAL_STORAGE_ID);
+    },
   });
 
   const [showMore, setShowMore] = useState(false);
+  const [email, setEmail] = useState("");
 
-  if (isLoading) {
-    return <GlobalLoader />;
-  }
-
-  if (!isSuccess) return null;
+  if (!isSuccess)
+    return (
+      <>
+        {isLoading && <GlobalLoader />}
+        <AnimatedPage>
+          <h1 className="centered">Resultados</h1>
+          <FancyInput
+            icon={<AtSymIcon />}
+            type="text"
+            placeholder="Correo electrónico"
+            value={email}
+            onChange={(e) => {
+              if (!/\s/.test(e.target.value)) {
+                setEmail(e.target.value);
+              }
+            }}
+            maxLength={50}
+          />
+          {error?.response.status === 404 && (
+            <p
+              className="text-error"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+              }}
+            >
+              <NotFoundIcon />
+              <b>No hay resultados para tí &nbsp;☹️</b>
+            </p>
+          )}
+          <button
+            onClick={() => {
+              window.localStorage.setItem(LOCAL_STORAGE_ID, email);
+              refetch();
+            }}
+          >
+            Obtener resultados
+          </button>
+        </AnimatedPage>
+      </>
+    );
 
   return (
     <AnimatedPage>
