@@ -88,7 +88,7 @@ function BasicData({ onContinue }) {
 
   const [email, setEmail] = useState(data.email ?? "");
   const [name, setName] = useState(data.name ?? "");
-  const [gender, setGender] = useState(data.gender ?? "");
+  const [gender, setGender] = useState(data.gender);
   const [age, setAge] = useDigits(data.age ?? "");
 
   const isValidForm = email && name.trim() && age;
