@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import UserForm from "./user-form";
+import ResultsPage from "../pages/results";
 
 export const router = createBrowserRouter([
   {
@@ -8,6 +9,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "/results",
-    element: <h1>Results</h1>,
+    element: <ResultsPage />,
   },
 ]);

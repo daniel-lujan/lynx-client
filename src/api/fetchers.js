@@ -14,3 +14,8 @@ export async function postForm(userResponse) {
   const { data } = await fetcher.post("/form", userResponse);
   return data;
 }
+
+export async function getResults(id) {
+  const { data } = await fetcher.get(`/results/${id}`);
+  return data;
+}
