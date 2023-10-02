@@ -409,6 +409,12 @@ function SendingPage({ onSent, onReturn }) {
       window.localStorage.setItem(LOCAL_STORAGE_ID, data.email);
       onSent();
     },
+    onError: ({ response }) => {
+      if (response.status === 409) {
+        window.localStorage.setItem(LOCAL_STORAGE_ID, data.email);
+        onSent();
+      }
+    },
   });
 
   return (
