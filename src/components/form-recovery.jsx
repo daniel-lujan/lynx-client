@@ -3,8 +3,9 @@ import { FormDataContext } from "../contexts/form-data-context";
 import { useQuery } from "react-query";
 import { getForm } from "../api/fetchers";
 import { LOCAL_STORAGE_ID } from "../constants/constants";
+import GlobalLoader from "./global-loader";
 
-export default function FormRecovery({ children }) {
+export default function FormRecovery({ children, onRecovery = () => {} }) {
   const [data, setData] = useState({
     email: undefined,
     name: undefined,
@@ -21,11 +22,12 @@ export default function FormRecovery({ children }) {
     marvelOrDC: undefined,
   });
 
-  useQuery({
+  const { isLoading } = useQuery({
     queryFn: () => getForm(window.localStorage.getItem(LOCAL_STORAGE_ID)),
     queryKey: "form",
     onSuccess: (data) => {
       setData(data);
+      onRecovery();
     },
     onError: () => {
       window.localStorage.removeItem(LOCAL_STORAGE_ID);
@@ -35,6 +37,7 @@ export default function FormRecovery({ children }) {
 
   return (
     <FormDataContext.Provider value={{ data, setData }}>
+      {isLoading && <GlobalLoader />}
       {children}
     </FormDataContext.Provider>
   );

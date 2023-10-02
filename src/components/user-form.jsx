@@ -10,6 +10,7 @@ import FormRecovery from "./form-recovery";
 import CategoryGroup, { CategoryOption } from "./category-group";
 import {
   GOOGLE_MAPS_API_KEY,
+  LOCAL_STORAGE_ID,
   MUSIC_GENRES,
   PERSON_CHARACTERISTICS,
 } from "../constants/constants";
@@ -27,7 +28,7 @@ function UserForm() {
   const [step, setStep] = useState(0);
 
   return (
-    <FormRecovery>
+    <FormRecovery onRecovery={() => setStep(6)}>
       <AnimatePresence mode="wait">
         {step === 0 && <BasicData key="basic" onContinue={() => setStep(1)} />}
         {step === 1 && (
@@ -440,7 +441,10 @@ function SendingPage({ onSent, onReturn }) {
 
   const { isLoading, mutate } = useMutation({
     mutationFn: postForm,
-    onSuccess: onSent,
+    onSuccess: () => {
+      window.localStorage.setItem(LOCAL_STORAGE_ID, data.email);
+      onSent();
+    },
   });
 
   return (
