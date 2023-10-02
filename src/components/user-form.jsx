@@ -8,11 +8,20 @@ import useFormData from "../hooks/use-form-data";
 import RangeSlider from "./range-slider";
 import FormRecovery from "./form-recovery";
 import CategoryGroup, { CategoryOption } from "./category-group";
-import { MUSIC_GENRES, PERSON_CHARACTERISTICS } from "../constants/constants";
+import {
+  GOOGLE_MAPS_API_KEY,
+  MUSIC_GENRES,
+  PERSON_CHARACTERISTICS,
+} from "../constants/constants";
 import SelectableImage, { ImagesContainer } from "./selectable-image";
 import Divider from "./divider";
 import { AnimatePresence, motion } from "framer-motion";
 import { CONTAINER } from "../constants/animations";
+import { useMutation } from "react-query";
+import { postForm } from "../api/fetchers";
+import GlobalLoader from "./global-loader";
+import { Wrapper } from "@googlemaps/react-wrapper";
+import Map, { MapContainer, Marker } from "./map";
 
 function UserForm() {
   const [step, setStep] = useState(0);
@@ -43,10 +52,17 @@ function UserForm() {
           />
         )}
         {step === 4 && (
+          <FavoriteLocation
+            key="favorite-location"
+            onContinue={() => setStep(5)}
+            onReturn={() => setStep(3)}
+          />
+        )}
+        {step === 5 && (
           <SendingPage
             key="sending-page"
-            onSend={() => setStep(5)}
-            onReturn={() => setStep(3)}
+            onSent={() => setStep(6)}
+            onReturn={() => setStep(4)}
           />
         )}
       </AnimatePresence>
@@ -163,20 +179,11 @@ function Tastes({ onContinue, onReturn }) {
       <h2 className="centered">Los conciertos... 🎤</h2>
       <RangeSlider value={concertsTaste} onChange={setConcertsTaste} />
       <Divider />
-      <div className="row-container">
-        <button
-          style={{ width: "100%" }}
-          onClick={() => handleNavigation(onReturn)}
-        >
-          VOLVER
-        </button>
-        <button
-          style={{ width: "100%" }}
-          onClick={() => handleNavigation(onContinue)}
-        >
-          CONTINUAR
-        </button>
-      </div>
+      <NavigationButtons
+        handler={handleNavigation}
+        onContinue={onContinue}
+        onReturn={onReturn}
+      />
     </motion.div>
   );
 }
@@ -225,20 +232,11 @@ function Categories({ onContinue, onReturn }) {
         ))}
       </CategoryGroup>
       <Divider />
-      <div className="row-container">
-        <button
-          style={{ width: "100%" }}
-          onClick={() => handleNavigation(onReturn)}
-        >
-          VOLVER
-        </button>
-        <button
-          style={{ width: "100%" }}
-          onClick={() => handleNavigation(onContinue)}
-        >
-          CONTINUAR
-        </button>
-      </div>
+      <NavigationButtons
+        handler={handleNavigation}
+        onContinue={onContinue}
+        onReturn={onReturn}
+      />
     </motion.div>
   );
 }
@@ -347,26 +345,49 @@ function Binaries({ onContinue, onReturn }) {
         />
       </ImagesContainer>
       <Divider />
-      <div className="row-container">
-        <button
-          style={{ width: "100%" }}
-          onClick={() => handleNavigation(onReturn)}
-        >
-          VOLVER
-        </button>
-        <button
-          style={{ width: "100%" }}
-          onClick={() => handleNavigation(onContinue)}
-        >
-          CONTINUAR
-        </button>
-      </div>
+      <NavigationButtons
+        handler={handleNavigation}
+        onContinue={onContinue}
+        onReturn={onReturn}
+      />
     </motion.div>
   );
 }
 
-function SendingPage({ onSend, onReturn }) {
-  const { data } = useFormData();
+function FavoriteLocation({ onContinue, onReturn }) {
+  function handleNavigation(callback) {
+    setData({
+      ...data,
+      mapPoint: {
+        lat: point.lat(),
+        lng: point.lng(),
+      },
+    });
+    callback();
+  }
+
+  const { data, setData } = useFormData();
+
+  const [point, setPoint] = useState(
+    data.mapPoint ? new window.google.maps.LatLng(data.mapPoint) : {}
+  );
+  const [zoom, setZoom] = useState(12); // initial zoom
+  const [center, setCenter] = useState({
+    lat: 6.247191923448905,
+    lng: -75.56574135933879,
+  });
+
+  const onClick = (e) => {
+    setPoint(e.latLng);
+  };
+
+  const onIdle = (m) => {
+    setZoom(m.getZoom());
+    const c = m.getCenter();
+    if (c) {
+      setCenter(c.toJSON());
+    }
+  };
 
   return (
     <motion.div
@@ -377,6 +398,60 @@ function SendingPage({ onSend, onReturn }) {
       animate="animate"
       exit="exit"
     >
+      <h1 className="centered">
+        Punto favorito <b className="text-primary">de Medellín</b>
+      </h1>
+      <p className="text-opaque centered">
+        Escoge tu lugar favorito de la ciudad
+      </p>
+      <Divider />
+      <MapContainer>
+        <Wrapper apiKey={GOOGLE_MAPS_API_KEY}>
+          <Map
+            center={center}
+            onClick={onClick}
+            onIdle={onIdle}
+            zoom={zoom}
+            style={{ flexGrow: "1", height: "100%" }}
+            fullscreenControl={false}
+            streetViewControl={false}
+            mapTypeControl={false}
+            clickableIcons={false}
+            minZoom={11}
+            maxZoom={15}
+          >
+            {point.lat && <Marker position={point} />}
+          </Map>
+        </Wrapper>
+      </MapContainer>
+      <Divider />
+      <NavigationButtons
+        handler={handleNavigation}
+        onContinue={onContinue}
+        onReturn={onReturn}
+      />
+    </motion.div>
+  );
+}
+
+function SendingPage({ onSent, onReturn }) {
+  const { data } = useFormData();
+
+  const { isLoading, mutate } = useMutation({
+    mutationFn: postForm,
+    onSuccess: onSent,
+  });
+
+  return (
+    <motion.div
+      className={`container ${styles.container}`}
+      key="sending-page"
+      variants={CONTAINER}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
+      {isLoading && <GlobalLoader />}
       <p>
         Sólo puedes enviar este formulario una vez. Te has registrado como
         <b className="text-primary"> {data.email}</b>, ¿seguro que quieres
@@ -386,11 +461,24 @@ function SendingPage({ onSend, onReturn }) {
         <button style={{ width: "100%" }} onClick={onReturn}>
           VOLVER
         </button>
-        <button style={{ width: "100%" }} onClick={onSend}>
+        <button style={{ width: "100%" }} onClick={() => mutate(data)}>
           ENVIAR
         </button>
       </div>
     </motion.div>
+  );
+}
+
+function NavigationButtons({ handler, onContinue, onReturn }) {
+  return (
+    <div className="row-container">
+      <button style={{ width: "100%" }} onClick={() => handler(onReturn)}>
+        VOLVER
+      </button>
+      <button style={{ width: "100%" }} onClick={() => handler(onContinue)}>
+        CONTINUAR
+      </button>
+    </div>
   );
 }
 
