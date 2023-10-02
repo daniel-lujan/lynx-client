@@ -1,5 +1,4 @@
 import { useState } from "react";
-import styles from "../styles/user-form.module.css";
 import FancyInput from "./fancy-input";
 import { AtSymIcon, Numbers123Icon, UserIcon } from "./icons";
 import GenderSelector from "./gender-selector";
@@ -16,13 +15,13 @@ import {
 } from "../constants/constants";
 import SelectableImage, { ImagesContainer } from "./selectable-image";
 import Divider from "./divider";
-import { AnimatePresence, motion } from "framer-motion";
-import { CONTAINER } from "../constants/animations";
+import { AnimatePresence } from "framer-motion";
 import { useMutation } from "react-query";
 import { postForm } from "../api/fetchers";
 import GlobalLoader from "./global-loader";
 import { Wrapper } from "@googlemaps/react-wrapper";
 import Map, { MapContainer, Marker } from "./map";
+import AnimatedPage from "./animated-page";
 
 function UserForm() {
   const [step, setStep] = useState(0);
@@ -95,14 +94,7 @@ function BasicData({ onContinue }) {
   const isValidForm = email && name.trim() && age;
 
   return (
-    <motion.div
-      className={`container ${styles.container}`}
-      key="basic-data"
-      variants={CONTAINER}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-    >
+    <AnimatedPage>
       <h1 className="centered">
         Responde <b className="text-primary">sin mentir</b>
       </h1>
@@ -141,7 +133,7 @@ function BasicData({ onContinue }) {
       <button onClick={handleContinue} disabled={!isValidForm}>
         {isValidForm ? "CONTINUAR" : "Completa los campos"}
       </button>
-    </motion.div>
+    </AnimatedPage>
   );
 }
 
@@ -163,14 +155,7 @@ function Tastes({ onContinue, onReturn }) {
   const [partiesTaste, setPartiesTaste] = useState(data.partiesTaste ?? 0);
 
   return (
-    <motion.div
-      className={`container ${styles.container}`}
-      key="tastes"
-      variants={CONTAINER}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-    >
+    <AnimatedPage>
       <h1 className="centered">
         Qué tanto <b className="text-primary">te gusta...</b>
       </h1>
@@ -186,7 +171,7 @@ function Tastes({ onContinue, onReturn }) {
         onContinue={onContinue}
         onReturn={onReturn}
       />
-    </motion.div>
+    </AnimatedPage>
   );
 }
 
@@ -206,14 +191,7 @@ function Categories({ onContinue, onReturn }) {
   const [personCh, setPersonCh] = useState(data.mostImportantAttr ?? "");
 
   return (
-    <motion.div
-      className={`container ${styles.container}`}
-      key="categories"
-      variants={CONTAINER}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-    >
+    <AnimatedPage>
       <h1 className="centered">
         Elige
         <b className="text-primary"> sabiamente...</b>
@@ -239,7 +217,7 @@ function Categories({ onContinue, onReturn }) {
         onContinue={onContinue}
         onReturn={onReturn}
       />
-    </motion.div>
+    </AnimatedPage>
   );
 }
 
@@ -264,14 +242,7 @@ function Binaries({ onContinue, onReturn }) {
   const [marvelOrDC, setMarvelOrDC] = useState(data.marvelOrDC ?? -1);
 
   return (
-    <motion.div
-      className={`container ${styles.container}`}
-      key="binaries"
-      variants={CONTAINER}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-    >
+    <AnimatedPage>
       <h1 className="centered">
         ¿Qué <b className="text-primary">prefieres?</b>
       </h1>
@@ -352,7 +323,7 @@ function Binaries({ onContinue, onReturn }) {
         onContinue={onContinue}
         onReturn={onReturn}
       />
-    </motion.div>
+    </AnimatedPage>
   );
 }
 
@@ -392,14 +363,7 @@ function FavoriteLocation({ onContinue, onReturn }) {
   };
 
   return (
-    <motion.div
-      className={`container ${styles.container}`}
-      key="sending-page"
-      variants={CONTAINER}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-    >
+    <AnimatedPage>
       <h1 className="centered">
         Punto favorito <b className="text-primary">de Medellín</b>
       </h1>
@@ -432,7 +396,7 @@ function FavoriteLocation({ onContinue, onReturn }) {
         onContinue={onContinue}
         onReturn={onReturn}
       />
-    </motion.div>
+    </AnimatedPage>
   );
 }
 
@@ -448,14 +412,7 @@ function SendingPage({ onSent, onReturn }) {
   });
 
   return (
-    <motion.div
-      className={`container ${styles.container}`}
-      key="sending-page"
-      variants={CONTAINER}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-    >
+    <AnimatedPage>
       {isLoading && <GlobalLoader />}
       <p>
         Sólo puedes enviar este formulario una vez. Te has registrado como
@@ -470,27 +427,20 @@ function SendingPage({ onSent, onReturn }) {
           ENVIAR
         </button>
       </div>
-    </motion.div>
+    </AnimatedPage>
   );
 }
 
 function SuccessPage() {
   return (
-    <motion.div
-      className={`container ${styles.container}`}
-      key="success-page"
-      variants={CONTAINER}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-    >
+    <AnimatedPage>
       <h1 className="centered">
         <b className="text-primary">¡Listo!</b>
       </h1>
       <p className="centered">
         Tu respuesta ha sido registrada, espera indicaciones.
       </p>
-    </motion.div>
+    </AnimatedPage>
   );
 }
 
