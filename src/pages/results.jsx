@@ -85,8 +85,8 @@ export default function ResultsPage() {
           animate="animate"
         >
           <p>
-            Y puedes pasar con ella una{" "}
-            <b className="text-primary">noche de pasión</b> en:
+            Y puedes pasar una <b className="text-primary">noche de pasión</b>{" "}
+            con ella en:
           </p>
           <EstablishmentCard {...data.nearestEstablishment} />
         </motion.div>
