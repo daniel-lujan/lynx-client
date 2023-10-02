@@ -162,3 +162,26 @@ export const StarIcon = (props) => (
     <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"></path>
   </svg>
 );
+
+export const NotFoundIcon = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="icon icon-tabler icon-tabler-error-404"
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    strokeWidth={2}
+    stroke="currentColor"
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+    <path d="M3 7v4a1 1 0 0 0 1 1h3"></path>
+    <path d="M7 7v10"></path>
+    <path d="M10 8v8a1 1 0 0 0 1 1h2a1 1 0 0 0 1 -1v-8a1 1 0 0 0 -1 -1h-2a1 1 0 0 0 -1 1z"></path>
+    <path d="M17 7v4a1 1 0 0 0 1 1h3"></path>
+    <path d="M21 7v10"></path>
+  </svg>
+);
