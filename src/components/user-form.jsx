@@ -65,6 +65,7 @@ function UserForm() {
             onReturn={() => setStep(4)}
           />
         )}
+        {step === 6 && <SuccessPage key="success-page" />}
       </AnimatePresence>
     </FormRecovery>
   );
@@ -465,6 +466,26 @@ function SendingPage({ onSent, onReturn }) {
           ENVIAR
         </button>
       </div>
+    </motion.div>
+  );
+}
+
+function SuccessPage() {
+  return (
+    <motion.div
+      className={`container ${styles.container}`}
+      key="success-page"
+      variants={CONTAINER}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
+      <h1 className="centered">
+        <b className="text-primary">¡Listo!</b>
+      </h1>
+      <p className="centered">
+        Tu respuesta ha sido registrada, espera indicaciones.
+      </p>
     </motion.div>
   );
 }
