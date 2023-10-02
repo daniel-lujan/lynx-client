@@ -99,6 +99,13 @@ div.row-container {
   color: var(--primary-color);
 }
 
+.text-error {
+  background-color: var(--background-color);
+  color: var(--opaque-color);
+  padding: 8px 16px;
+  border-radius: 10px;
+}
+
 svg {
   flex-shrink: 0;
   color: unset;
