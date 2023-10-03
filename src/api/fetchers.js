@@ -19,3 +19,21 @@ export async function getResults(id) {
   const { data } = await fetcher.get(`/results/${id}`);
   return data;
 }
+
+export async function triggerCalc({ token }) {
+  const { data } = await fetcher.get("/admin/calculate", {
+    params: {
+      token,
+    },
+  });
+  return data;
+}
+
+export async function resetCalc({ token }) {
+  const { data } = await fetcher.get("/admin/reset", {
+    params: {
+      token,
+    },
+  });
+  return data;
+}
