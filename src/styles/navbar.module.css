@@ -18,9 +18,13 @@
   padding: 0 48px;
 }
 
+.github {
+  transition: var(--default-transition);
+}
+
 .github:hover {
   cursor: pointer;
-  fill: white;
+  color: var(--text-opaque);
 }
 
 .menu {
