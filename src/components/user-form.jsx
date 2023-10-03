@@ -91,7 +91,8 @@ function BasicData({ onContinue }) {
   const [gender, setGender] = useState(data.gender);
   const [age, setAge] = useDigits(data.age ?? "");
 
-  const isValidForm = email && name.trim() && age;
+  const isValidForm =
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && name.trim() && age.length > 0;
 
   return (
     <AnimatedPage>
@@ -118,7 +119,10 @@ function BasicData({ onContinue }) {
         type="text"
         placeholder="Nombre"
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={(e) => {
+          if (/^[a-zA-Z\s]+$/.test(e.target.value) || e.target.value === "")
+            setName(e.target.value);
+        }}
         maxLength={30}
       />
       <FancyInput
@@ -216,6 +220,7 @@ function Categories({ onContinue, onReturn }) {
         handler={handleNavigation}
         onContinue={onContinue}
         onReturn={onReturn}
+        disabledContinue={!personCh}
       />
     </AnimatedPage>
   );
@@ -322,6 +327,12 @@ function Binaries({ onContinue, onReturn }) {
         handler={handleNavigation}
         onContinue={onContinue}
         onReturn={onReturn}
+        disabledContinue={
+          catsOrDogs === -1 ||
+          messiOrCristiano === -1 ||
+          backOrFront === -1 ||
+          marvelOrDC === -1
+        }
       />
     </AnimatedPage>
   );
@@ -395,6 +406,7 @@ function FavoriteLocation({ onContinue, onReturn }) {
         handler={handleNavigation}
         onContinue={onContinue}
         onReturn={onReturn}
+        disabledContinue={!point.lat}
       />
     </AnimatedPage>
   );
@@ -450,13 +462,22 @@ function SuccessPage() {
   );
 }
 
-function NavigationButtons({ handler, onContinue, onReturn }) {
+function NavigationButtons({
+  handler,
+  onContinue,
+  onReturn,
+  disabledContinue,
+}) {
   return (
     <div className="row-container">
       <button style={{ width: "100%" }} onClick={() => handler(onReturn)}>
         VOLVER
       </button>
-      <button style={{ width: "100%" }} onClick={() => handler(onContinue)}>
+      <button
+        style={{ width: "100%" }}
+        onClick={() => handler(onContinue)}
+        disabled={disabledContinue}
+      >
         CONTINUAR
       </button>
     </div>
