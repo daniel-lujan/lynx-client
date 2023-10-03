@@ -12,7 +12,11 @@ export default function Navbar() {
     <header className={styles.header}>
       <div className={styles.container}>
         <div className={styles.logo}>
-          <h1 className="text-primary">Lynx</h1>
+          <h1>
+            <a href="/" className="text-primary">
+              Lynx
+            </a>
+          </h1>
         </div>
         <GithubIcon
           className={styles.github}
