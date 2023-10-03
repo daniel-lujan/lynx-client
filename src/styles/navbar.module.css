@@ -1,0 +1,66 @@
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 80px;
+  background-color: var(--secondary-color);
+  position: fixed;
+  z-index: 1000;
+}
+
+.container {
+  max-width: 700px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  padding: 0 48px;
+}
+
+.github:hover {
+  cursor: pointer;
+  fill: white;
+}
+
+.menu {
+  position: fixed;
+  top: 60px;
+  background-color: var(--secondary-color);
+  width: 200px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  z-index: 4;
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.menuItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 20px;
+}
+
+.menuItem:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.menuItem p {
+  margin: 0;
+  font-size: 12px;
+}
+
+.menuItem svg {
+  color: white;
+}
+
+.menu.repos {
+  right: max(35px, calc(50% - 325px));
+}

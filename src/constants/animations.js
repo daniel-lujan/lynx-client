@@ -50,3 +50,36 @@ export const CONTAINER = {
     duration: 0.6,
   },
 };
+
+export const NAVBAR_MENU = {
+  initial: {
+    y: 60,
+    opacity: 0,
+  },
+  animate: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+  exit: {
+    y: 60,
+    opacity: 0,
+  },
+  transition: {
+    easing: "easeInOut",
+    duration: 0.2,
+  },
+};
+
+export const SLIDERIGHT = {
+  initial: {
+    x: -60,
+    opacity: 0,
+  },
+  animate: {
+    x: 0,
+    opacity: 1,
+  },
+};
